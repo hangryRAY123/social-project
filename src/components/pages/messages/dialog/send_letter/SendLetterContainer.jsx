@@ -1,4 +1,4 @@
-import { SendLetterForm } from './SendLetter';
+import { SendLetterForm } from './SendLetterForm';
 import { addMesageActionCreator } from '../../../../../redux/messages-reducer';
 import { connect } from 'react-redux';
 
