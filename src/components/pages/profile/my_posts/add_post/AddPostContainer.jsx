@@ -1,4 +1,4 @@
-import { AddPostForm } from './AddPost';
+import { AddPostForm } from './AddPostForm';
 import { addPostActionCreator } from '../../../../../redux/profile-reducer';
 import { connect } from 'react-redux';
 

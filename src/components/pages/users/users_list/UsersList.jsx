@@ -46,11 +46,7 @@ export const UsersList = (props) => {
                 </NavLink>
                 <div>
                   <h3>{e.name}</h3>
-                  <p>
-                    from:{' '}
-                    <span>{'e.location.country'}</span> ,{' '}
-                    <span>{'e.location.city'}</span>
-                  </p>
+                  
                 </div>
                 <div>
                   {e.followed ? (

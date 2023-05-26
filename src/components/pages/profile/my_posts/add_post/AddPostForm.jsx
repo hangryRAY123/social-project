@@ -1,14 +1,14 @@
+import { StyledPost } from './styles';
 import { Form, Field } from 'react-final-form';
-import { StyledLetter } from './styles';
 import { Element } from '../../../../ui/form/FormControls';
 
 const Textarea = Element('textarea');
 
-export const SendLetter = (props) => {
+export const AddPostForm = (props) => {
   return (
     <Form
       onSubmit={(value) => {
-        props.addMessage(value.message);
+        props.addPost(value.message);
       }}
       validate={(value) => {
         const errors = {};
@@ -24,7 +24,7 @@ export const SendLetter = (props) => {
       }}
     >
       {({ handleSubmit }) => (
-        <StyledLetter onSubmit={handleSubmit}>
+        <StyledPost onSubmit={handleSubmit}>
           <Field
             component={Textarea}
             name="message"
@@ -33,7 +33,7 @@ export const SendLetter = (props) => {
             rows="3"
           />
           <button type="submit">Send</button>
-        </StyledLetter>
+        </StyledPost>
       )}
     </Form>
   );
