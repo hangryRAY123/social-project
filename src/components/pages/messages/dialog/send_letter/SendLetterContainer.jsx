@@ -1,4 +1,4 @@
-import { SendLetterForm } from './SendLetterForm';
+import { SendLetter } from './SendLetterForm';
 import { addMesageActionCreator } from '../../../../../redux/messages-reducer';
 import { connect } from 'react-redux';
 
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch) => {
 export const SendLetterContainer = connect(
   null,
   mapDispatchToProps
-)(SendLetterForm);
+)(SendLetter);

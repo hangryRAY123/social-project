@@ -28,10 +28,10 @@ export const SendLetterFormRedux = reduxForm({
   form: 'sendLetter',
 })(SendLetter);
 
-// export const SendLetterForm = (props) => {
-//   const addNewMessage = (value) => {
-//     props.addMessage(value.message);
-//   };
+export const SendLetterForm = (props) => {
+  const addNewMessage = (value) => {
+    props.addMessage(value.message);
+  };
 
-//   return <SendLetterFormRedux onSubmit={addNewMessage} />;
-// };
+  return <SendLetterFormRedux onSubmit={addNewMessage} />;
+};
