@@ -10,7 +10,8 @@ const Login = (props) => {
     props.login(
       formData.email,
       formData.password,
-      formData.rememberMe
+      formData.rememberMe,
+      formData.captcha
     );
   };
 
@@ -22,7 +23,10 @@ const Login = (props) => {
         <StyledLogin>
           <Logo />
           <h2>Login</h2>
-          <LoginReduxForm onSubmit={onSubmit} />
+          <LoginReduxForm
+            onSubmit={onSubmit}
+            captchaUrl={props.captchaUrl}
+          />
         </StyledLogin>
       )}
     </>
@@ -31,6 +35,7 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    captchaUrl: state.auth.captchaUrl,
     isAuth: state.auth.isAuth,
   };
 };

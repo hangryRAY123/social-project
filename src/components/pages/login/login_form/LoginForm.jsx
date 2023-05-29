@@ -1,7 +1,11 @@
 import { reduxForm, Field } from 'redux-form';
 import { required } from '../../../../utils/validators/validators';
 import { Element } from '../../../ui/form/FormControls';
-import { StyledForm, StyledError } from './styles';
+import {
+  StyledForm,
+  StyledError,
+  StyledCaptcha,
+} from './styles';
 import error from '../../../../img/error.png';
 
 const Input = Element('input');
@@ -39,6 +43,20 @@ const LoginForm = (props) => {
         />
         <small>remember me</small>
       </label>
+      {props.captchaUrl && (
+        <StyledCaptcha>
+          <img src={props.captchaUrl} alt="Captcha." />
+          <Field
+            component={Element('input')}
+            validate={[required]}
+            name="captcha"
+            placeholder="Symbols for image"
+            type="text"
+            right="-255"
+            top="-2"
+          />
+        </StyledCaptcha>
+      )}
       {props.error && (
         <StyledError>
           <img

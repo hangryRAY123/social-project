@@ -54,3 +54,14 @@ export const StyledError = styled.span`
     margin-right: 5px;
   }
 `;
+
+export const StyledCaptcha = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+
+  & > img {
+    margin-bottom: 10px;
+  }
+`;

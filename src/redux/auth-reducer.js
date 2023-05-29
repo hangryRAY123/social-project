@@ -1,9 +1,14 @@
 import { stopSubmit } from 'redux-form';
-import { authAPI, profileAPI } from '../api/api';
+import {
+  authAPI,
+  profileAPI,
+  securityAPI,
+} from '../api/api';
 
 const SET_USER_DATA = 'auth/SET_USER_DATA';
 const SET_IS_FETCHING = 'auth/SET_IS_FETCHING';
 const SET_USER_PHOTO = 'auth/SET_USER_PHOTO';
+const SET_CAPTCHA_URL = 'auth/SET_CAPTCHA_URL';
 
 const initialState = {
   id: null,
@@ -12,6 +17,7 @@ const initialState = {
   isFetching: false,
   isAuth: false,
   photo: null,
+  captchaUrl: null,
 };
 
 export const authReducer = (
@@ -37,6 +43,13 @@ export const authReducer = (
       return {
         ...state,
         photo: action.photo,
+      };
+    }
+
+    case SET_CAPTCHA_URL: {
+      return {
+        ...state,
+        captchaUrl: action.captchaUrl,
       };
     }
 
@@ -71,6 +84,13 @@ export const setUserPhoto = (photo) => {
   };
 };
 
+export const setCaptchaUrl = (captchaUrl) => {
+  return {
+    type: SET_CAPTCHA_URL,
+    captchaUrl,
+  };
+};
+
 export const getAuth = () => {
   return async (dispath) => {
     dispath(setIsFetching(true));
@@ -87,17 +107,27 @@ export const getAuth = () => {
   };
 };
 
-export const login = (email, password, rememberMe) => {
+export const login = (
+  email,
+  password,
+  rememberMe,
+  captcha
+) => {
   return async (dispath) => {
     const data = await authAPI.login(
       email,
       password,
-      rememberMe
+      rememberMe,
+      captcha
     );
 
     if (data.resultCode === 0) {
       dispath(getAuth());
     } else {
+      if (data.resultCode === 10) {
+        dispath(getCaptchaUrl());
+      }
+
       const message =
         data.messages.length > 0
           ? data.messages[0]
@@ -109,6 +139,15 @@ export const login = (email, password, rememberMe) => {
         })
       );
     }
+  };
+};
+
+export const getCaptchaUrl = () => {
+  return async (dispath) => {
+    const data = await securityAPI.getCaptchaUrl();
+    const captchaUrl = data.url;
+
+    dispath(setCaptchaUrl(captchaUrl));
   };
 };
 
