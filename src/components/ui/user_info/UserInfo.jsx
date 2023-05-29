@@ -1,102 +1,103 @@
-// import Avatar from '../../../img/my-avatar.jpg';
 import userPhoto from '../../../img/user.png';
+import upload from '../../../img/upload.png';
+import setting from '../../../img/setting.png';
 import { Preloader } from '../preloader/Preloader';
 import { Social } from '../social/Social';
 import { Status } from '../status/StatusHook';
 import {
   StyledProfile,
-  StyledList,
-  StyledItem,
   StyledHeader,
+  StyledUpload,
+  StyledAvatar,
 } from './styles';
+import { UserInfoList } from './UserInfoList';
+import { UserInfoReduxForm } from './UserInfoForm';
+import { useState } from 'react';
 
 export const UserInfo = ({
   profile,
   status,
   updateStatus,
+  isOwner,
+  savePhoto,
+  saveProfile,
 }) => {
+  const [editMode, setEditMode] = useState(false);
+
+  const onMainPhotoSelect = (e) => {
+    if (e.target.files.length) {
+      savePhoto(e.target.files[0]);
+    }
+  };
+
+  const onSubmit = (formData) => {
+    saveProfile(formData).then(() => setEditMode(false));
+  };
+
   return (
     <>
       {!profile ? (
         <Preloader />
       ) : (
         <StyledProfile>
-          <img
-            src={
-              profile.photos.large != null
-                ? profile.photos.large
-                : userPhoto
-            }
-            width="200"
-            height="200"
-            alt="Avatar."
-          />
+          <StyledAvatar>
+            <img
+              src={profile.photos.large || userPhoto}
+              width="200"
+              height="200"
+              alt="Avatar."
+            />
+            <Social contacts={profile.contacts} />
+          </StyledAvatar>
+          {isOwner && (
+            <StyledUpload>
+              <label>
+                <input
+                  type="file"
+                  name="file"
+                  onChange={onMainPhotoSelect}
+                />
+                <img
+                  src={upload}
+                  width="20"
+                  height="20"
+                  alt="Upload."
+                />
+              </label>
+            </StyledUpload>
+          )}
           <div>
             <StyledHeader>
+              {isOwner && !editMode && (
+                <img
+                  src={setting}
+                  width="20"
+                  height="20"
+                  alt="Setting."
+                  onClick={() => {
+                    setEditMode(true);
+                  }}
+                />
+              )}
               <h2>{profile.fullName}</h2>
               <Status
                 status={status}
                 updateStatus={updateStatus}
+                isOwner={isOwner}
               />
             </StyledHeader>
-            <b>{profile.aboutMe}</b>
           </div>
-          <StyledList>
-            {profile.contacts.website ? (
-              <StyledItem>
-                <small>Website</small>
-                <a
-                  href={`https://${profile.contacts.website}`}
-                >
-                  {profile.contacts.website}
-                </a>
-              </StyledItem>
-            ) : null}
-
-            {profile.contacts.youtube ? (
-              <StyledItem>
-                <small>Youtube</small>
-                <a
-                  href={`https://${profile.contacts.youtube}`}
-                >
-                  {profile.contacts.youtube}
-                </a>
-              </StyledItem>
-            ) : null}
-
-            {profile.contacts.github ? (
-              <StyledItem>
-                <small>Github</small>
-                <a
-                  href={`https://${profile.contacts.github}`}
-                >
-                  {profile.contacts.github}
-                </a>
-              </StyledItem>
-            ) : null}
-
-            {profile.contacts.mainLink ? (
-              <StyledItem>
-                <small>Mainlink</small>
-                <a
-                  href={`https://${profile.contacts.mainLink}`}
-                >
-                  {profile.contacts.mainLink}
-                </a>
-              </StyledItem>
-            ) : null}
-
-            {profile.lookingForAJob ? (
-              <StyledItem>
-                <small>Ищу работу</small>
-                <span>
-                  {profile.lookingForAJobDescription}
-                </span>
-              </StyledItem>
-            ) : null}
-          </StyledList>
-          <Social contacts={profile.contacts} />
-          <button type="button">Message</button>
+          {editMode ? (
+            <UserInfoReduxForm
+              initialValues={profile}
+              onSubmit={onSubmit}
+            />
+          ) : (
+            <UserInfoList profile={profile} />
+          )}
+          {!isOwner && (
+            <button type="button">Message</button>
+          )}
         </StyledProfile>
       )}
     </>

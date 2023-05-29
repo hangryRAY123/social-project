@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyledStatus } from './styles';
+import { StyledStatus, StyledStatusUser } from './styles';
+import idea from '../../../img/change.svg';
 
 export const Status = (props) => {
   const [editMode, setEditMode] = useState(false);
@@ -23,20 +24,34 @@ export const Status = (props) => {
   };
 
   return (
-    <StyledStatus>
-      {!editMode ? (
-        <span onClick={activateEditMode}>
-          {status || 'No status'}
-        </span>
+    <>
+      {props.isOwner ? (
+        <StyledStatus>
+          {!editMode ? (
+            <span onClick={activateEditMode}>
+              {status || 'No status'}
+            </span>
+          ) : (
+            <input
+              autoFocus={true}
+              onBlur={deactivateEditMode}
+              value={status}
+              onChange={onStatusChange}
+              type="text"
+            />
+          )}
+          <img
+            src={idea}
+            width="19"
+            height="19"
+            alt="Idea."
+          />
+        </StyledStatus>
       ) : (
-        <input
-          autoFocus={true}
-          onBlur={deactivateEditMode}
-          value={status}
-          onChange={onStatusChange}
-          type="text"
-        />
+        <StyledStatusUser>
+          <span>{status || 'No status'}</span>
+        </StyledStatusUser>
       )}
-    </StyledStatus>
+    </>
   );
 };

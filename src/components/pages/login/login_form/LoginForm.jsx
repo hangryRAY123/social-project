@@ -11,7 +11,7 @@ const LoginForm = (props) => {
     <StyledForm onSubmit={props.handleSubmit}>
       <label>
         <Field
-          component={Input}
+          component={Element('input')}
           validate={[required]}
           name="email"
           placeholder="Email"
@@ -50,7 +50,6 @@ const LoginForm = (props) => {
           {props.error}
         </StyledError>
       )}
-
       <button type="submit">Login</button>
     </StyledForm>
   );

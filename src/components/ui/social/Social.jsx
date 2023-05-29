@@ -50,7 +50,7 @@ export const Social = ({ contacts }) => {
             height="14"
             alt="Vkontakte."
           />
-          <span className="visually-hidden">Linkedin.</span>
+          <span className="visually-hidden">Vkontakte.</span>
         </a>
       </StyledItem>
     </StyledList>

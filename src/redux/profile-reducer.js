@@ -10,11 +10,13 @@ import Aada from '../img/avatarW-4.jpg';
 import Nala from '../img/avatarW-5.jpg';
 import Ramon from '../img/avatarM-6.jpg';
 import { profileAPI } from '../api/api';
+import { stopSubmit } from 'redux-form';
 
 const ADD_POST = 'profile/ADD-POST';
 const DELETE_POST = 'profile/DELETE-POST';
 const SET_USER_PROFILE = 'profile/SET_USER_PROFILE';
 const SET_STATUS = 'profile/SET_STATUS';
+const SET_PHOTO = 'profile/SET_PHOTO';
 
 const initialState = {
   posts: [
@@ -155,6 +157,15 @@ export const profilePageReducer = (
         status: action.status,
       };
 
+    case SET_PHOTO:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          photos: action.photos,
+        },
+      };
+
     default:
       return state;
   }
@@ -188,6 +199,13 @@ export const setStatus = (status) => {
   };
 };
 
+export const setPhoto = (photos) => {
+  return {
+    type: SET_PHOTO,
+    photos,
+  };
+};
+
 export const getProfile = (userId, myId) => {
   return async (dispath) => {
     if (!userId) {
@@ -218,6 +236,39 @@ export const updateStatus = (status) => {
 
     if (data.resultCode === 0) {
       dispath(setStatus(status));
+    }
+  };
+};
+
+export const savePhoto = (file) => {
+  return async (dispath) => {
+    const data = await profileAPI.savePhoto(file);
+
+    if (data.resultCode === 0) {
+      dispath(setPhoto(data.data.photos));
+    }
+  };
+};
+
+export const saveProfile = (profile) => {
+  return async (dispath, getState) => {
+    const id = getState().auth.id;
+    const data = await profileAPI.saveProfile(profile);
+
+    if (data.resultCode === 0) {
+      dispath(getProfile(id));
+    } else {
+      const message =
+        data.messages.length > 0
+          ? data.messages[0]
+          : 'Сheck the entered data';
+
+      dispath(
+        stopSubmit('userForm', {
+          _error: message,
+        })
+      );
+      return Promise.reject(data.messages[0]);
     }
   };
 };

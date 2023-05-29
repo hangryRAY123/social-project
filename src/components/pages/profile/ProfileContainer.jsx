@@ -5,6 +5,8 @@ import {
   getProfile,
   getStatus,
   updateStatus,
+  savePhoto,
+  saveProfile
 } from '../../../redux/profile-reducer';
 import {
   useLocation,
@@ -15,7 +17,7 @@ import { withAuthRedirect } from '../../../hoc/with-auth-redirect';
 import { compose } from 'redux';
 
 export class UserProfile extends React.Component {
-  componentDidMount() {
+  refreshProfile() {
     this.props.getProfile(
       this.props.router.params.userId,
       this.props.id
@@ -26,12 +28,28 @@ export class UserProfile extends React.Component {
     );
   }
 
+  componentDidMount() {
+    this.refreshProfile();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.router.params.userId !==
+      prevProps.router.params.userId
+    ) {
+      this.refreshProfile();
+    }
+  }
+
   render() {
     return (
       <Profile
+        isOwner={!this.props.router.params.userId}
         profile={this.props.profile}
         status={this.props.status}
         updateStatus={this.props.updateStatus}
+        savePhoto={this.props.savePhoto}
+        saveProfile={this.props.saveProfile}
       />
     );
   }
@@ -66,6 +84,8 @@ const mapDispatchToProps = {
   getProfile,
   getStatus,
   updateStatus,
+  savePhoto,
+  saveProfile
 };
 
 const ProfileContainer = compose(

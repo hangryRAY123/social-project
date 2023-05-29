@@ -2,9 +2,7 @@ import styled from 'styled-components';
 
 export const StyledList = styled.ul`
   display: flex;
-  align-items: center;
-  justify-self: center;
-  grid-column: 1;
+  justify-content: center;
 `;
 
 export const StyledItem = styled.li`
