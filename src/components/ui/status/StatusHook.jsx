@@ -38,6 +38,7 @@ export const Status = (props) => {
               value={status}
               onChange={onStatusChange}
               type="text"
+              maxLength='50'
             />
           )}
           <img

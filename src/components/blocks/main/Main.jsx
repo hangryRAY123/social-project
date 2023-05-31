@@ -3,6 +3,7 @@ import { StyledMain } from './styles';
 import { Routes, Route } from 'react-router-dom';
 import { NavBar } from '../../pages/nav_bar/NavBar';
 import { Preloader } from '../../ui/preloader/Preloader';
+import { Navigate } from 'react-router-dom';
 
 const MessagesContainer = React.lazy(() =>
   import('../../pages/messages/MessagesContainer')
@@ -41,7 +42,7 @@ export const Main = () => {
           <Route
             exact
             path="/"
-            element={<ProfileContainer />}
+            element={<Navigate to="/profile" />}
           />
           <Route
             path="/profile/:userId?"

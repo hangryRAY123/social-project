@@ -1,5 +1,5 @@
 import { LoginReduxForm } from './login_form/LoginForm';
-import { StyledLogin } from './styles';
+import { StyledLogin, StyledInfo } from './styles';
 import { Logo } from '../../ui/logo/Logo';
 import { connect } from 'react-redux';
 import { login } from '../../../redux/auth-reducer';
@@ -27,6 +27,14 @@ const Login = (props) => {
             onSubmit={onSubmit}
             captchaUrl={props.captchaUrl}
           />
+          <StyledInfo>
+            <span>
+              Email: <b>free@samuraijs.com</b>
+            </span>
+            <span>
+              Password: <b>free</b>
+            </span>
+          </StyledInfo>
         </StyledLogin>
       )}
     </>
